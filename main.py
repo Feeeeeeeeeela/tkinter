@@ -12,14 +12,29 @@ class Application(tk.Tk):
         super().__init__(className=self.name)
         self.title(self.name)
         self.bind("<Escape>", self.quit)
-        self.lbl = tk.Label(self, text="Hello World")
-        self.lbl.pack()
-        self.btn = tk.Button(self, text="Quit", command=self.quit)
-        self.btn.pack()
+        self.first= tk.Scale(self, from_=0, to=255, orient=tk.HORIZONTAL, background="red")
+        self.first.grid(row=0, column=0)
 
-    def quit(self, event=None):
-        super().quit()
+        self.second = tk.Scale(self, from_=0, to=255, orient=tk.HORIZONTAL, background="green")
+        self.second.grid(row=0, column=1)
+
+        self.third = tk.Scale(self, from_=0, to=255, orient=tk.HORIZONTAL, background="blue")
+        self.third.grid(row=0, column=2)
+
+        self.canv = tk.Canvas(background="#000000")
+        self.canv.grid(row=1, column=0, columnspan=3)
+
+        self.btn = tk.Button(self, text="jo", command=lambda:self.onpress())
+        self.btn.grid(row=2, column=0, columnspan=3)
+
+    def onpress(self, event=None):
+        rn = self.first.get()
+        gn = self.second.get()
+        bn = self.third.get()
+        hexnumber = '#%02x%02x%02x' % (rn, gn, bn)
+        self.canv.configure(bg = hexnumber)
 
 
 app = Application()
+app.geometry("600x500")
 app.mainloop()
